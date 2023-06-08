@@ -28,4 +28,4 @@ abstract class BaseModel
     {
         return $this->db->execute_non_query($sql, $params);
     }
-}
+}   

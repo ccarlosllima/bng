@@ -4,7 +4,7 @@ namespace bng\System;
 
 use PDO;
 use PDOException;
-use stdClass;
+use \stdClass;
 
 // ============================================================================
 class Database

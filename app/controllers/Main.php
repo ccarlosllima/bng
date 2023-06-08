@@ -12,7 +12,16 @@ class Main extends BaseController
         if (!check_session()) {
             $this->login_frm();
             return;
-        }
+        }   
+        
+        $data['user'] = $_SESSION['user'];
+
+        $this->view('layouts/html_header');
+        $this->view('navbar',$data);
+        $this->view('homepage',$data);
+        $this->view('footer');
+        $this->view('layouts/html_footer');
+
 
     }
     // =========================================
@@ -31,6 +40,12 @@ class Main extends BaseController
         if (!empty($_SESSION['validation_errors'])) {
             $data['validation_errors'] = $_SESSION['validation_errors'];
             unset($_SESSION['validation_errors']);
+        }
+
+        //check if there was an invalid login
+        if (!empty($_SESSION['server_error'])) {
+            $data['server_error'] = $_SESSION['server_error'];
+            unset($_SESSION['server_error']);
         }
         // display login form
         $this->view('layouts/html_header');
@@ -69,7 +84,7 @@ class Main extends BaseController
 
         // check if username is between 5 and 50 chars
         if (strlen($username) < 5 || strlen($username) > 50) {
-            $validation_errors [] = 'O username dever conter entre 5 e 50 caracteres';
+            $validation_errors[] = 'O username dever conter entre 5 e 50 caracteres';
         }
 
         // check if password is valid
@@ -83,9 +98,33 @@ class Main extends BaseController
             $this->login_frm();
             return;
         }
-        // get form data
 
-        echo $username . "<br>" . $password;
+        $model = new Agents();
+        $result = $model->check_login($username, $password);
+        if (!$result['status']) {
+            // invalid login
+            $_SESSION['server_error'] = 'Login Inválido';
+            $this->login_frm();
+            return;
+        }
+        // load user information to the session
+        $results =  $model->get_user_data($username);
 
+        // add user to session
+        $_SESSION['user'] = $results['data'];
+
+        // update the last login
+        $results = $model->set_user_last_login($_SESSION['user']->id);
+
+        // got to main page
+        $this->index();
+    }
+    public function logout()
+    {
+        // clear user from session
+        unset($_SESSION['user']);
+        
+        // go to index (login form)
+        $this->index();
     }
 }

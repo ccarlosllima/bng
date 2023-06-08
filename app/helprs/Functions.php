@@ -9,7 +9,7 @@ function check_session()
 
 
 // function for print data
-function printData($data, $dei = true)
+function debug($data, $dei = true)
 {   
     echo '<pre>';
     if (is_object($data) || is_array($data)) {
