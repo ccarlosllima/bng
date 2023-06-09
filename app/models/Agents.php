@@ -47,8 +47,7 @@ class Agents extends BaseModel
         $results = $this->query("
             SELECT
                 id,
-                AES_DECRYPT(:username, '".MYSQL_AES_KEY."'),
-                name,
+                AES_DECRYPT(name, '".MYSQL_AES_KEY."') name,
                 profile
             FROM 
                 agents

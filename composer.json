@@ -7,7 +7,9 @@
             "name": "carlos lima"
         }
     ],
-    "require":{},
+    "require":{
+        "monolog/monolog": "^3.3"
+    },
     "autoload": {
         "psr-4": {
             "bng\\Controllers\\":["app/controllers"],

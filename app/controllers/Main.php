@@ -24,9 +24,9 @@ class Main extends BaseController
 
 
     }
-    // =========================================
+    // =====================================================================
     // LOGIN
-    // =========================================
+    // =====================================================================
     public function login_frm()
     {
         // check if there is already a user in the session
@@ -102,17 +102,21 @@ class Main extends BaseController
         $model = new Agents();
         $result = $model->check_login($username, $password);
         if (!$result['status']) {
+            // logger
+            logger("$username - login inválido",'error');
             // invalid login
             $_SESSION['server_error'] = 'Login Inválido';
             $this->login_frm();
             return;
         }
+        logger("$username - login com sucesso");
+
         // load user information to the session
         $results =  $model->get_user_data($username);
 
         // add user to session
         $_SESSION['user'] = $results['data'];
-
+        
         // update the last login
         $results = $model->set_user_last_login($_SESSION['user']->id);
 
@@ -121,6 +125,14 @@ class Main extends BaseController
     }
     public function logout()
     {
+        // disable direct access to logout
+        if (!check_session()) {
+            $this->index();
+            return;
+        }
+        // logger
+        logger($_SESSION['user']->name . '- fez logout ');
+     
         // clear user from session
         unset($_SESSION['user']);
         
