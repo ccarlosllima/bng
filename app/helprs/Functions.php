@@ -5,6 +5,7 @@ use Monolog\Handler\StreamHandler;
 function check_session()
 {
     // check if there is an active session
+    // session_start();
     return isset($_SESSION['user']);
 }
 
@@ -45,7 +46,7 @@ function logger($message = '', $level = 'info')
 
 
 // function for print data
-function debug($data, $dei = true)
+function dd($data, $dei = true)
 {
     echo '<pre>';
     if (is_object($data) || is_array($data)) {

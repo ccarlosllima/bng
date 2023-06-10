@@ -8,20 +8,22 @@ class Agent extends BaseController
 {
     public function my_clients()
     {
-        if (check_session() || $_SESSION['user']->profile == 'agent') {
+        session_start();
+
+        if (!check_session() || $_SESSION['user']->profile != 'agent') {
             header('Location:index.php');
         }
         
         // get all agent clients
         
         $id_agent = $_SESSION['user']->id;
+
         $model = new Agents();
         $results = $model->get_agent_clients($id_agent);
-        debug($results);
 
         $data['user'] = $_SESSION['user'];
         $data['clients'] = $results['data'];
-    
+        
         $this->view('layouts/html_header');
         $this->view('navbar',$data);
         $this->view('agent_clients', $data);

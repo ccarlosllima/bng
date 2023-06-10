@@ -3,20 +3,25 @@
 
         <!-- os meus clientes -->
         <div class="col-12 p-5 bg-white">
+    <?php 
 
+    // dd($data);
+?>
             <div class="row">
                 <div class="col">
-                    <h5><i class="fa-solid fa-user-tie me-2"></i>Agente: <strong>[nome do agente]</strong></h5>
+                    <h5><i class="fa-solid fa-user-tie me-2"></i>Agente: <strong><?= $data['user']->name ?></strong></h5>
                 </div>
                 <div class="col text-end">
-                    <a href="#" class="btn btn-secondary"><i class="fa-solid fa-upload me-2"></i></i>Carregar ficheiro</a>
+                    <a href="#" class="btn btn-secondary"><i class="fa-solid fa-upload me-2"></i></i>Carregar
+                        ficheiro</a>
                     <a href="#" class="btn btn-secondary"><i class="fa-solid fa-plus me-2"></i>Novo cliente</a>
                 </div>
             </div>
-
             <hr>
 
-            <p class="my-5 text-center opacity-75">Não existem clientes registados.</p>
+            <?php if ($data['clients'] == 0): ?>
+                <p class="my-5 text-center opacity-75">Não existem clientes registados.</p>
+            <?php endif; ?>
 
             <table class="table table-striped table-bordered">
                 <thead class="table-dark">
@@ -31,19 +36,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php  foreach ($data['clients'] as $client): ?>
                     <tr>
-                        <td>[Nome do cliente]</td>
-                        <td class="text-center">[Sexo]</td>
-                        <td class="text-center">[Data nascimento]</td>
-                        <td>[Email]</td>
-                        <td class="text-center">[Telefone]</td>
-                        <td>[Interesses]</td>
+                        <td><?= $client->name ?></td>
+                        <td class="text-center"><?= $client->gender ?></td>
+                        <td class="text-center"><?=$client->birtddate ?></td>
+                        <td><?= $client->email ?></td>
+                        <td class="text-center"><?= $client->phone ?></td>
+                        <td><?= $client->interests ?></td>
                         <td class="text-end">
-                            <a href="#"><i class="fa-regular fa-pen-to-square me-2"></i>Editar</a>
+                            <a href="?ct=Agent&mt=edit_client=<?=$client->id ?>"><i class="fa-regular fa-pen-to-square me-2"></i>Editar</a>
                             <span class="mx-2 opacity-50">|</span>
-                            <a href="#"><i class="fa-solid fa-trash-can me-2"></i>Eliminar</a>
+                            <a href="?ct=Agent&mt=delete_client=<?=$client->id ?>"><i class="fa-solid fa-trash-can me-2"></i>Eliminar</a>
                         </td>
                     </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
 
@@ -57,7 +64,7 @@
                     </a>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>

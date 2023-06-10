@@ -101,6 +101,7 @@ class Main extends BaseController
 
         $model = new Agents();
         $result = $model->check_login($username, $password);
+
         if (!$result['status']) {
             // logger
             logger("$username - login inválido",'error');
@@ -113,13 +114,12 @@ class Main extends BaseController
 
         // load user information to the session
         $results =  $model->get_user_data($username);
-
         // add user to session
         $_SESSION['user'] = $results['data'];
-        
+
         // update the last login
         $results = $model->set_user_last_login($_SESSION['user']->id);
-
+        
         // got to main page
         $this->index();
     }
