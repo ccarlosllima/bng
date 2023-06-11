@@ -14,7 +14,7 @@
                 <div class="col text-end">
                     <a href="#" class="btn btn-secondary"><i class="fa-solid fa-upload me-2"></i></i>Carregar
                         ficheiro</a>
-                    <a href="#" class="btn btn-secondary"><i class="fa-solid fa-plus me-2"></i>Novo cliente</a>
+                    <a href="?ct=Agent&mt=new_client_frm" class="btn btn-secondary"><i class="fa-solid fa-plus me-2"></i>Novo cliente</a>
                 </div>
             </div>
             <hr>
@@ -40,14 +40,14 @@
                     <tr>
                         <td><?= $client->name ?></td>
                         <td class="text-center"><?= $client->gender ?></td>
-                        <td class="text-center"><?=$client->birtddate ?></td>
+                        <td class="text-center"><?=$client->birthdate ?></td>
                         <td><?= $client->email ?></td>
                         <td class="text-center"><?= $client->phone ?></td>
                         <td><?= $client->interests ?></td>
                         <td class="text-end">
-                            <a href="?ct=Agent&mt=edit_client=<?=$client->id ?>"><i class="fa-regular fa-pen-to-square me-2"></i>Editar</a>
+                            <a href="?ct=Agent&mt=edit_client&id=<?=$client->id ?>"><i class="fa-regular fa-pen-to-square me-2"></i>Editar</a>
                             <span class="mx-2 opacity-50">|</span>
-                            <a href="?ct=Agent&mt=delete_client=<?=$client->id ?>"><i class="fa-solid fa-trash-can me-2"></i>Eliminar</a>
+                            <a href="?ct=Agent&mt=delete_client&id=<?=$client->id ?>"><i class="fa-solid fa-trash-can me-2"></i>Eliminar</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -56,7 +56,7 @@
 
             <div class="row">
                 <div class="col">
-                    <p class="mb-5">Total: <strong>[0]</strong></p>
+                    <p class="mb-5">Total: <strong>[Adicionar Count]</strong></p>
                 </div>
                 <div class="col text-end">
                     <a href="#" class="btn btn-secondary">
