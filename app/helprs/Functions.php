@@ -5,7 +5,7 @@ use Monolog\Handler\StreamHandler;
 function check_session()
 {
     // check if there is an active session
-    session_start();
+    // session_start();
     return isset($_SESSION['user']);
 }
 

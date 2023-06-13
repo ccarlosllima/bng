@@ -9,7 +9,7 @@ class Agent extends BaseController
     // =============================================
     public function my_clients()
     {
-
+        session_start();
         if (!check_session() || $_SESSION['user']->profile != 'agent') {
             header('Location:index.php');
         }
@@ -34,20 +34,20 @@ class Agent extends BaseController
     public function new_client_frm()
     {
         session_start();
+        
         if (!check_session() || $_SESSION['user']->profile != 'agent') {
             header('Location:index.php');
         }
-
+        
         $data['user'] = $_SESSION['user'];
         $data['flatpickr'] = true;
-
+        
         // check if there are validation errors
         if (!empty($_SESSION['validation_errors'])) {
             $data['validation_errors'] = $_SESSION['validation_errors'];
             unset($_SESSION['validation_errors']);
-            return; 
         }
-
+        
         $this->view('layouts/html_header', $data);
         $this->view('navbar', $data);
         $this->view('insert_client_frm', $data);
@@ -59,25 +59,23 @@ class Agent extends BaseController
     // =============================================
     public function new_client_submit()
     {
+        session_start();
+
         if (!check_session() || $_SESSION['user']->profile != 'agent' || $_SERVER['REQUEST_METHOD'] != 'POST') {
             header('Location:index.php');
         }
 
         // form validate
         $validation_errors = [];
-        if (!empty($validation_errors)) {
-            $_SESSION['validation_errors'] = $validation_errors;
-            $this->new_client_frm();
-            return;
-        }
 
-        
         // text_name
         if (empty($_POST['text_name'])) {
             $validation_errors[] = 'Nome é de preenchimeto obrigatório.';
         } else {
-            if (strlen($_POST['text_name']) < 3 || strlen($_POST['text_name'] > 50)) {
-                $validation_errors[] = 'O nome deve contar entre 3 e 50 caracteres.';
+
+            if (strlen($_POST['text_name']) < 3 || strlen($_POST['text_name']) > 50) {
+                dd(strlen($_POST['text_name']));
+                $validation_errors[] = 'O nome deve conter entre 3 e 50 caracteres.';
             }
         }
         // gender
@@ -102,8 +100,8 @@ class Agent extends BaseController
         // email
         if (empty($_POST['text_email'])) {
             $validation_errors[] = 'E-mail é de preenchimento obrigatório';
-        }else {
-            if (!filter_var($_POST['text_email'],FILTER_VALIDATE_EMAIL)) {
+        } else {
+            if (!filter_var($_POST['text_email'], FILTER_VALIDATE_EMAIL)) {
                 $validation_errors[] = 'Email não é valido';
             }
         }
@@ -111,7 +109,7 @@ class Agent extends BaseController
         // phone
         if (empty($_POST['text_phone'])) {
             $validation_errors[] = 'Telefone é de preenchimento obrigatório.';
-        }else{
+        } else {
             if (!preg_match("/^9{1}\d{8}$/", $_POST['text_phone'])) {
                 $validation_errors[] = 'O telefone deve começar com 9 e ter 9 algarismos no total';
             }
@@ -122,19 +120,22 @@ class Agent extends BaseController
             $this->new_client_frm();
             return;
         }
-        
     }
 
 
     // =============================================
     public function edit_client($id)
     {
+        session_start();
+
         echo "editar $id";
     }
 
     // =============================================
     public function delete_client($id)
     {
+        session_start();
+
         echo "deleted $id";
     }
 
