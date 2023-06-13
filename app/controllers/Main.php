@@ -12,13 +12,13 @@ class Main extends BaseController
         if (!check_session()) {
             $this->login_frm();
             return;
-        }   
-        
+        }
+
         $data['user'] = $_SESSION['user'];
 
         $this->view('layouts/html_header');
-        $this->view('navbar',$data);
-        $this->view('homepage',$data);
+        $this->view('navbar', $data);
+        $this->view('homepage', $data);
         $this->view('footer');
         $this->view('layouts/html_footer');
 
@@ -104,7 +104,7 @@ class Main extends BaseController
 
         if (!$result['status']) {
             // logger
-            logger("$username - login inválido",'error');
+            logger("$username - login inválido", 'error');
             // invalid login
             $_SESSION['server_error'] = 'Login Inválido';
             $this->login_frm();
@@ -113,13 +113,13 @@ class Main extends BaseController
         logger("$username - login com sucesso");
 
         // load user information to the session
-        $results =  $model->get_user_data($username);
+        $results = $model->get_user_data($username);
         // add user to session
         $_SESSION['user'] = $results['data'];
 
         // update the last login
         $results = $model->set_user_last_login($_SESSION['user']->id);
-        
+
         // got to main page
         $this->index();
     }
@@ -132,10 +132,10 @@ class Main extends BaseController
         }
         // logger
         logger($_SESSION['user']->name . '- fez logout ');
-     
+
         // clear user from session
         unset($_SESSION['user']);
-        
+
         // go to index (login form)
         $this->index();
     }
