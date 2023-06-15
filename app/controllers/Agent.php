@@ -129,13 +129,14 @@ class Agent extends BaseController
         // check if the client already exists with the same nome
         $model = new Agents();
         $results = $model->check_if_client_exists($_POST);
-
         if ($results['status']) {
             // a person with the same name exists for this agent. Return a serve error
             $_SESSION['server_error'] = "Já existe um cliente com esse nome.";
             $this->new_client_frm();
             return;
         }
+
+        // dd($_POST);
     }
 
 
