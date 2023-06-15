@@ -9,7 +9,7 @@
                         <h4><strong>Inserir novo cliente</strong></h4>
 
                         <hr>
-                        
+
                         <form action="?ct=Agent&mt=new_client_submit" method="post" novalidate>
 
                             <div class="mb-3">
@@ -57,7 +57,7 @@
                             </div>
 
                             <div class="mb-3 text-center">
-                                <a href="?ct=Main&mt=index" class="btn btn-secondary"><i
+                                <a href="?ct=Agent&mt=my_clients" class="btn btn-secondary"><i
                                         class="fa-solid fa-xmark me-2"></i>Cancelar</a>
                                 <button type="submit" class="btn btn-secondary"><i
                                         class="fa-regular fa-floppy-disk me-2"></i>Guardar</button>
@@ -66,11 +66,19 @@
                                 <div class="alert alert-danger p-2 text-center">
                                     <ul>
                                         <?php foreach ($validation_errors as $errors): ?>
-                                            <li><?= $errors ?></li>
+                                            <li>
+                                                <?= $errors ?>
+                                            </li>
                                         <?php endforeach ?>
                                     </ul>
                                 </div>
                             <?php endif ?>
+
+                            <?php if (isset($server_error)): ?>
+                                <div class="alert alert-danger p-2 text-center">
+                                    <?= $server_error ?>
+                                </div>
+                            <?php  endif;  ?>
                         </form>
                     </div>
                 </div>
