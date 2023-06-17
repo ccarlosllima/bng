@@ -148,7 +148,7 @@ class Agent extends BaseController
     {
         session_start();
 
-        echo "editar $id";
+        echo aes_decrypt($id);
     }
 
     // =============================================
@@ -156,7 +156,7 @@ class Agent extends BaseController
     {
         session_start();
 
-        echo "deleted $id";
+        echo "deleted ". aes_decrypt($id) ;
     }
 
 }
