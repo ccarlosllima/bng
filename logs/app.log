@@ -60,3 +60,6 @@
 [2023-06-17T08:53:39.439667+00:00] app_logs.INFO: agente1@bng.com - adicionou novo cliente: Carlos Augusto | ccarlos.llima@gmail.com [] []
 [2023-06-17T09:00:06.071239+00:00] app_logs.INFO: agente1@bng.com - adicionou novo cliente: Carlos Augusto | ccarlos.llima@gmail.com [] []
 [2023-06-17T09:01:18.604604+00:00] app_logs.INFO: agente1@bng.com - adicionou novo cliente: Ana Paula | ccarlos.llima@gmail.com [] []
+[2023-06-17T10:37:04.112231+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
+[2023-06-17T10:40:25.724203+00:00] app_logs.INFO: agente1@bng.com- fez logout  [] []
+[2023-06-17T10:40:31.937538+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
