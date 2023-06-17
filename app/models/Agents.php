@@ -3,6 +3,7 @@
 namespace bng\Models;
 
 use bng\Models\BaseModel;
+
 class Agents extends BaseModel
 {
     public function check_login($username, $password)
@@ -15,7 +16,8 @@ class Agents extends BaseModel
         // check if there is a user in the database
         $this->db_connect();
         $results = $this->query(
-            "SELECT id, passwrd FROM agents WHERE AES_ENCRYPT(:username, '" . MYSQL_AES_KEY . "') = name", $params
+            "SELECT id, passwrd FROM agents WHERE AES_ENCRYPT(:username, '" . MYSQL_AES_KEY . "') = name",
+            $params
         );
 
         // check is no user, returns false
@@ -47,12 +49,12 @@ class Agents extends BaseModel
         $results = $this->query("
             SELECT
                 id,
-                AES_DECRYPT(name, '".MYSQL_AES_KEY."') name,
+                AES_DECRYPT(name, '" . MYSQL_AES_KEY . "') name,
                 profile
             FROM 
                 agents
             WHERE 
-                AES_ENCRYPT(:username, '".MYSQL_AES_KEY."') = name", 
+                AES_ENCRYPT(:username, '" . MYSQL_AES_KEY . "') = name",
             $params
         );
         return [
@@ -68,7 +70,8 @@ class Agents extends BaseModel
         ];
         $this->db_connect();
         $results = $this->non_query(
-            "UPDATE  agents SET last_login = NOW() WHERE id = :id", $params
+            "UPDATE  agents SET last_login = NOW() WHERE id = :id",
+            $params
         );
         return $results;
     }
@@ -83,10 +86,10 @@ class Agents extends BaseModel
         $results = $this->query(
             "SELECT  
                 id, 
-                    AES_DECRYPT(name, '".MYSQL_AES_KEY."')name, 
+                    AES_DECRYPT(name, '" . MYSQL_AES_KEY . "')name, 
                     gender, birthdate, 
-                    AES_DECRYPT(email, '".MYSQL_AES_KEY."')email,
-                    AES_DECRYPT(phone, '".MYSQL_AES_KEY."')phone, 
+                    AES_DECRYPT(email, '" . MYSQL_AES_KEY . "')email,
+                    AES_DECRYPT(phone, '" . MYSQL_AES_KEY . "')phone, 
                     interests, 
                     created_at, 
                     updated_at 
@@ -112,7 +115,7 @@ class Agents extends BaseModel
 
         $this->db_connect();
         $results = $this->query(
-            "SELECT id, name FROM persons WHERE AES_ENCRYPT(:client_name,'".MYSQL_AES_KEY."') = name AND id_agent = :id_agent",
+            "SELECT id, name FROM persons WHERE AES_ENCRYPT(:client_name,'" . MYSQL_AES_KEY . "') = name AND id_agent = :id_agent",
             $params
         );
 
@@ -120,7 +123,7 @@ class Agents extends BaseModel
             return [
                 'status' => false
             ];
-        }else{
+        } else {
             return [
                 'status' => true
             ];
@@ -129,11 +132,10 @@ class Agents extends BaseModel
     }
     public function add_new_client_to_database($post_data)
     {
-        // dd($post_data);
         // add client to database
         $birthdate = new \DateTime($post_data['text_birthdate']);
-        
-        
+
+
         $params = [
             ':name' => $post_data['text_name'],
             ':gender' => $post_data['radio_gender'],
@@ -143,26 +145,25 @@ class Agents extends BaseModel
             ':interests' => $post_data['text_interests'],
             ':id_agent' => $_SESSION['user']->id,
         ];
-        // dd($params);
 
         $this->db_connect();
         $this->non_query(
-           /* "INSERT INTO persons VALUES(".
-                "0, ".
-                "AES_ENCRYPT(:name '".MYSQL_AES_KEY."'),".
-                ":gender, ".
-                ":birthdate, ".
-                "AES_ENCRYPT(:email '".MYSQL_AES_KEY."'),".
-                "AES_ENCRYPT(:phone '".MYSQL_AES_KEY."'),".
-                ":interests, ".
-                ":id_agent, ".
-                "NOW(), ".         
-                "NOW(), ".
-                "NULL".
-                ")", 
+            "INSERT INTO persons VALUES(" .
+            "0, " .
+            "AES_ENCRYPT(:name, '" . MYSQL_AES_KEY . "')," .
+            ":gender, " .
+            ":birthdate, " .
+            "AES_ENCRYPT(:email, '" . MYSQL_AES_KEY . "')," .
+            "AES_ENCRYPT(:phone, '" . MYSQL_AES_KEY . "')," .
+            ":interests, " .
+            ":id_agent, " .
+            "NOW(), " .
+            "NOW(), " .
+            "NULL" .
+            ")",
             $params
-           */
-          "INSERT INTO persons VALUES(AES_ENCRYPT(:name '".MYSQL_AES_KEY."'), :gender, :birthdate, AES_ENCRYPT(:email '".MYSQL_AES_KEY."'), AES_ENCRYPT(:phone '".MYSQL_AES_KEY."'), :interests, :id_agent, NOW(), NOW(), NULL, )", $params 
+
+            //   "INSERT INTO persons VALUES(AES_ENCRYPT(:name '".MYSQL_AES_KEY."'), :gender, :birthdate, AES_ENCRYPT(:email '".MYSQL_AES_KEY."'), AES_ENCRYPT(:phone '".MYSQL_AES_KEY."'), :interests, :id_agent, NOW(), NOW(), NULL, )", $params 
         );
     }
-}   
+}

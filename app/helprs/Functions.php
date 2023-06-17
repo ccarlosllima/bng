@@ -63,6 +63,12 @@ function aes_decrypt($value)
 }
 
 // ========================================================
+function get_active_user_name()
+{
+    return $_SESSION['user']->name;
+}
+
+// ========================================================
 // function for print data
 function dd($data, $dei = true)
 {
