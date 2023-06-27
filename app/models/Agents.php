@@ -205,5 +205,51 @@ class Agents extends BaseModel
             ':id_agent' => $_SESSION['user']->id
         ];
         $this->db_connect();
+        $results = $this->query(
+            "SELECT id " .
+                "FROM persons " .
+                "WHERE id <> :id " .
+                "AND id_agent = :id_agent " .
+                "AND AES_ENCRYPT(:name, '".MYSQL_AES_KEY."') = name",
+            $params
+        );
+        if ($results->affected_rows != 0) {
+            return [
+                'status' => true
+            ];
+        }else{
+            return [
+                'status' => false
+            ];
+        }
+    }
+    function update_client_data($id, $post_data)
+    {
+        // update the agent's client data in the database
+        $birthdate = new \DateTime($post_data['text_birthdate']);        
+        $params = [
+            ':id' => $id,
+            ':name' => $post_data['text_name'],
+            ':gender' => $post_data['radio_gender'],
+            ':birthdate' => $birthdate->format('Y-m-d H:i:s'),
+            ':email' => $post_data['text_email'],
+            ':phone' => $post_data['text_phone'],
+            ':interests' => $post_data['text_interests'],
+        ];
+
+
+        $this->db_connect();
+        $this->non_query(
+            "UPDATE persons SET " .
+            "name = AES_ENCRYPT(:name, '". MYSQL_AES_KEY ."'), " .
+            "gender = :gender, " .
+            "birthdate = :birthdate, " .
+            "email = AES_ENCRYPT(:email, '". MYSQL_AES_KEY ."'), " .
+            "phone = AES_ENCRYPT(:phone, '". MYSQL_AES_KEY ."'), " .
+            "interests = :interests, " .
+            "updated_at = NOW() " .
+            "WHERE id = :id" 
+        ,$params);
+        
     }
 }

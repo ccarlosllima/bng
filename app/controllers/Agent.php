@@ -79,7 +79,6 @@ class Agent extends BaseController
         } else {
 
             if (strlen($_POST['text_name']) < 3 || strlen($_POST['text_name']) > 50) {
-                dd(strlen($_POST['text_name']));
                 $validation_errors[] = 'O nome deve conter entre 3 e 50 caracteres.';
             }
         }
@@ -172,16 +171,24 @@ class Agent extends BaseController
         }
 
         $data['client'] = $results['data'];
+        $data['client']->birthdate = date('d-m-Y', strtotime($data['client']->birthdate));
 
         // display the edit client form
         $data['user'] = $_SESSION['user'];
         $data['flatpickr'] = true;
+
 
         // check if there are validation errors
         if (!empty($_SESSION['validation_errors'])) {
             $data['validation_errors'] = $_SESSION['validation_errors'];
             unset($_SESSION['validation_errors']);
         }
+        // check if exists server errors
+         if (!empty($_SESSION['server_error'])) {
+            $data['server_error'] = $_SESSION['server_error'];
+            unset($_SESSION['server_error']);
+        }
+
 
         $this->view('layouts/html_header', $data);
         $this->view('navbar', $data);
@@ -203,7 +210,6 @@ class Agent extends BaseController
 
         // text_name
         if (empty($_POST['text_name'])) {
-            die('Nome vazio');
             $validation_errors[] = 'Nome é de preenchimeto obrigatório.';
         } else {
 
