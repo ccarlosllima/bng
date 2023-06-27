@@ -193,7 +193,7 @@ class Agent extends BaseController
 
     function edit_client_submit()
     {
-
+        
         if (!check_session() || $_SESSION['user']->profile != 'agent') {
             header('Location:index.php');
         }
@@ -203,11 +203,11 @@ class Agent extends BaseController
 
         // text_name
         if (empty($_POST['text_name'])) {
+            die('Nome vazio');
             $validation_errors[] = 'Nome é de preenchimeto obrigatório.';
         } else {
 
             if (strlen($_POST['text_name']) < 3 || strlen($_POST['text_name']) > 50) {
-                dd(strlen($_POST['text_name']));
                 $validation_errors[] = 'O nome deve conter entre 3 e 50 caracteres.';
             }
         }
@@ -220,6 +220,7 @@ class Agent extends BaseController
         if (empty($_POST['text_birthdate'])) {
             // check if birthdate is valid and is older than today
             $birthdate = \DateTime::createFromFormat('d-m-Y', $_POST['text_birthdate']);
+
             if (!$birthdate) {
                 $validation_errors[] = "A data de nascimento não esta no formato correto.";
             } else {
@@ -251,18 +252,39 @@ class Agent extends BaseController
         if(empty($_POST['id_client'])){
             header('Location:index.php');
         }
-    
         $id_client = aes_decrypt($_POST['id_client']);
         if (!$id_client) {
             header('Location:index.php');
         }
-        
+         
         // check if there are validation error to return to the form
         if (!empty($validation_errors)) {
             $_SESSION['validation_errors'] = $validation_errors;
-            $this->new_client_frm();
+            $this->edit_client(aes_encrypt($id_client));
             return;
         }
+
+
+        //check if there is another agent's client with the same name
+        $model = new Agents();
+        $results = $model->check_other_client_with_same_name($id_client, $_POST['text_name']);
+
+        // check if there is...
+        if ($results['status']) {
+            $_SESSION['server_error'] = 'Já existe outro cliente com o mesmo nome.';
+            $this->edit_client(aes_encrypt($id_client));
+            return;
+        }
+
+        // updates the agent's data in database
+        $model->update_client_data($id_client, $_POST);
+
+        // logger
+        logger(get_active_user_name(). " - Atualizou dado do cliente ID: ".$id_client);
+
+        // return to the main clients page
+        $this->my_clients();
+
 
     }
     // =============================================

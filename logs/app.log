@@ -63,3 +63,6 @@
 [2023-06-17T10:37:04.112231+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
 [2023-06-17T10:40:25.724203+00:00] app_logs.INFO: agente1@bng.com- fez logout  [] []
 [2023-06-17T10:40:31.937538+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
+[2023-06-27T08:08:51.097163+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
+[2023-06-27T08:20:19.037724+00:00] app_logs.INFO: agente1@bng.com - adicionou novo cliente: João Ribeiro atualizado | ccarlos.llima@gmail.com [] []
+[2023-06-27T22:15:32.715194+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
