@@ -3,3 +3,6 @@
 [2023-06-27T23:25:13.250976+00:00] app_logs.INFO: agente1@bng.com - Atualizou dado do cliente ID: 1 [] []
 [2023-06-29T07:58:54.172124+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
 [2023-06-29T08:53:05.509305+00:00] app_logs.INFO: carlos - Eliminado o cliente id: 5 [] []
+[2023-06-29T15:27:10.645068+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
+[2023-06-29T15:39:40.299261+00:00] app_logs.INFO: agente1@bng.com- fez logout  [] []
+[2023-06-29T15:56:10.017714+00:00] app_logs.INFO: agente1@bng.com - login com sucesso [] []
